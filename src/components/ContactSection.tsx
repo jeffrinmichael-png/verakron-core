@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { motion } from "framer-motion";
-import { Send, Mail, Building2, User, DollarSign, FileText, CheckCircle } from "lucide-react";
+import { Send, Mail, Building2, User, DollarSign, FileText, CheckCircle, Phone, MapPin } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -32,6 +32,7 @@ const budgetRanges = [
 
 const ContactSection = () => {
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const { toast } = useToast();
 
   const form = useForm<ContactFormData>({
@@ -46,17 +47,32 @@ const ContactSection = () => {
   });
 
   const onSubmit = async (data: ContactFormData) => {
-    // Simulate form submission
-    await new Promise((resolve) => setTimeout(resolve, 1000));
+    setIsSubmitting(true);
     
-    setIsSubmitted(true);
-    toast({
-      title: "Message Sent Successfully!",
-      description: "Our team will get back to you within 24 hours.",
-    });
-    
-    form.reset();
-    setTimeout(() => setIsSubmitted(false), 5000);
+    try {
+      // Simulate form submission with a delay
+      await new Promise((resolve) => setTimeout(resolve, 1500));
+      
+      // Log the submission (in production, this would send to a backend)
+      console.log("Form submitted:", { ...data, timestamp: new Date().toISOString() });
+      
+      setIsSubmitted(true);
+      toast({
+        title: "Message Sent Successfully!",
+        description: "Our team will get back to you within 24 hours.",
+      });
+      
+      form.reset();
+      setTimeout(() => setIsSubmitted(false), 5000);
+    } catch (error) {
+      toast({
+        title: "Something went wrong",
+        description: "Please try again or contact us directly.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const containerVariants = {
@@ -92,7 +108,7 @@ const ContactSection = () => {
           </span>
           <h2 className="text-4xl md:text-5xl font-bold mb-6">
             Let's Discuss Your{" "}
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary">
+            <span className="text-gold-gradient">
               Project
             </span>
           </h2>
@@ -111,7 +127,7 @@ const ContactSection = () => {
             className="lg:col-span-2 space-y-8"
           >
             <div className="glass-card p-8 rounded-2xl">
-              <h3 className="text-2xl font-bold mb-6">Contact Information</h3>
+              <h3 className="text-2xl font-bold mb-6 text-gold-gradient">Contact Information</h3>
               
               <div className="space-y-6">
                 <div className="flex items-start gap-4">
@@ -120,28 +136,38 @@ const ContactSection = () => {
                   </div>
                   <div>
                     <p className="text-sm text-muted-foreground mb-1">Email Us</p>
-                    <p className="font-medium">contact@verakron.com</p>
+                    <p className="font-medium text-foreground">contact@verakron.com</p>
                   </div>
                 </div>
 
                 <div className="flex items-start gap-4">
-                  <div className="w-12 h-12 rounded-xl bg-secondary/10 border border-secondary/20 flex items-center justify-center flex-shrink-0">
-                    <Building2 className="w-5 h-5 text-secondary" />
+                  <div className="w-12 h-12 rounded-xl bg-primary/10 border border-primary/20 flex items-center justify-center flex-shrink-0">
+                    <Phone className="w-5 h-5 text-primary" />
+                  </div>
+                  <div>
+                    <p className="text-sm text-muted-foreground mb-1">Call Us</p>
+                    <p className="font-medium text-foreground">+91 XXX XXX XXXX</p>
+                  </div>
+                </div>
+
+                <div className="flex items-start gap-4">
+                  <div className="w-12 h-12 rounded-xl bg-primary/10 border border-primary/20 flex items-center justify-center flex-shrink-0">
+                    <MapPin className="w-5 h-5 text-primary" />
                   </div>
                   <div>
                     <p className="text-sm text-muted-foreground mb-1">Headquarters</p>
-                    <p className="font-medium">Mumbai, India</p>
+                    <p className="font-medium text-foreground">Mumbai, India</p>
                   </div>
                 </div>
               </div>
 
-              <div className="mt-8 pt-8 border-t border-border/50">
+              <div className="mt-8 pt-8 border-t border-primary/10">
                 <p className="text-sm text-muted-foreground mb-4">Trusted by global enterprises</p>
                 <div className="flex gap-3">
                   {["TC", "GS", "NE", "DI"].map((initials, index) => (
                     <div
                       key={index}
-                      className="w-10 h-10 rounded-lg bg-muted/50 flex items-center justify-center text-xs font-bold text-muted-foreground"
+                      className="w-10 h-10 rounded-lg bg-primary/10 border border-primary/20 flex items-center justify-center text-xs font-bold text-primary"
                     >
                       {initials}
                     </div>
@@ -153,7 +179,7 @@ const ContactSection = () => {
             <div className="glass-card p-6 rounded-2xl border-primary/30">
               <div className="flex items-center gap-3 mb-3">
                 <div className="w-3 h-3 rounded-full bg-green-500 animate-pulse" />
-                <span className="text-sm font-medium">Available for new projects</span>
+                <span className="text-sm font-medium text-foreground">Available for new projects</span>
               </div>
               <p className="text-sm text-muted-foreground">
                 Average response time: Under 4 hours during business days
@@ -179,7 +205,7 @@ const ContactSection = () => {
                   <div className="w-20 h-20 rounded-full bg-green-500/10 border border-green-500/20 flex items-center justify-center mx-auto mb-6">
                     <CheckCircle className="w-10 h-10 text-green-500" />
                   </div>
-                  <h3 className="text-2xl font-bold mb-3">Thank You!</h3>
+                  <h3 className="text-2xl font-bold mb-3 text-foreground">Thank You!</h3>
                   <p className="text-muted-foreground">
                     Your message has been received. We'll be in touch shortly.
                   </p>
@@ -194,14 +220,14 @@ const ContactSection = () => {
                           name="name"
                           render={({ field }) => (
                             <FormItem>
-                              <FormLabel className="flex items-center gap-2">
+                              <FormLabel className="flex items-center gap-2 text-foreground">
                                 <User className="w-4 h-4 text-primary" />
                                 Full Name
                               </FormLabel>
                               <FormControl>
                                 <Input
                                   placeholder="John Smith"
-                                  className="bg-muted/50 border-border/50 focus:border-primary h-12"
+                                  className="bg-background/50 border-primary/20 focus:border-primary h-12 text-foreground placeholder:text-muted-foreground"
                                   {...field}
                                 />
                               </FormControl>
@@ -217,7 +243,7 @@ const ContactSection = () => {
                           name="email"
                           render={({ field }) => (
                             <FormItem>
-                              <FormLabel className="flex items-center gap-2">
+                              <FormLabel className="flex items-center gap-2 text-foreground">
                                 <Mail className="w-4 h-4 text-primary" />
                                 Email Address
                               </FormLabel>
@@ -225,7 +251,7 @@ const ContactSection = () => {
                                 <Input
                                   type="email"
                                   placeholder="john@company.com"
-                                  className="bg-muted/50 border-border/50 focus:border-primary h-12"
+                                  className="bg-background/50 border-primary/20 focus:border-primary h-12 text-foreground placeholder:text-muted-foreground"
                                   {...field}
                                 />
                               </FormControl>
@@ -243,14 +269,14 @@ const ContactSection = () => {
                           name="company"
                           render={({ field }) => (
                             <FormItem>
-                              <FormLabel className="flex items-center gap-2">
+                              <FormLabel className="flex items-center gap-2 text-foreground">
                                 <Building2 className="w-4 h-4 text-primary" />
                                 Company Name
                               </FormLabel>
                               <FormControl>
                                 <Input
                                   placeholder="Your Company Inc."
-                                  className="bg-muted/50 border-border/50 focus:border-primary h-12"
+                                  className="bg-background/50 border-primary/20 focus:border-primary h-12 text-foreground placeholder:text-muted-foreground"
                                   {...field}
                                 />
                               </FormControl>
@@ -266,19 +292,19 @@ const ContactSection = () => {
                           name="budget"
                           render={({ field }) => (
                             <FormItem>
-                              <FormLabel className="flex items-center gap-2">
+                              <FormLabel className="flex items-center gap-2 text-foreground">
                                 <DollarSign className="w-4 h-4 text-primary" />
                                 Budget Range
                               </FormLabel>
                               <Select onValueChange={field.onChange} defaultValue={field.value}>
                                 <FormControl>
-                                  <SelectTrigger className="bg-muted/50 border-border/50 focus:border-primary h-12">
+                                  <SelectTrigger className="bg-background/50 border-primary/20 focus:border-primary h-12 text-foreground">
                                     <SelectValue placeholder="Select budget range" />
                                   </SelectTrigger>
                                 </FormControl>
-                                <SelectContent>
+                                <SelectContent className="bg-card border-primary/20">
                                   {budgetRanges.map((range) => (
-                                    <SelectItem key={range.value} value={range.value}>
+                                    <SelectItem key={range.value} value={range.value} className="text-foreground hover:bg-primary/10">
                                       {range.label}
                                     </SelectItem>
                                   ))}
@@ -297,14 +323,14 @@ const ContactSection = () => {
                         name="projectDetails"
                         render={({ field }) => (
                           <FormItem>
-                            <FormLabel className="flex items-center gap-2">
+                            <FormLabel className="flex items-center gap-2 text-foreground">
                               <FileText className="w-4 h-4 text-primary" />
                               Project Details
                             </FormLabel>
                             <FormControl>
                               <Textarea
                                 placeholder="Tell us about your project, goals, and timeline..."
-                                className="bg-muted/50 border-border/50 focus:border-primary min-h-[140px] resize-none"
+                                className="bg-background/50 border-primary/20 focus:border-primary min-h-[140px] resize-none text-foreground placeholder:text-muted-foreground"
                                 {...field}
                               />
                             </FormControl>
@@ -317,14 +343,14 @@ const ContactSection = () => {
                     <motion.div variants={itemVariants}>
                       <Button
                         type="submit"
-                        variant="hero"
-                        size="lg"
+                        variant="gold"
+                        size="xl"
                         className="w-full"
-                        disabled={form.formState.isSubmitting}
+                        disabled={isSubmitting}
                       >
-                        {form.formState.isSubmitting ? (
+                        {isSubmitting ? (
                           <span className="flex items-center gap-2">
-                            <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                            <div className="w-5 h-5 border-2 border-primary-foreground/30 border-t-primary-foreground rounded-full animate-spin" />
                             Sending...
                           </span>
                         ) : (

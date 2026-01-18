@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Menu, X } from "lucide-react";
+import verakronLogo from "@/assets/verakron-logo.png";
 
 const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -22,12 +23,20 @@ const Header = () => {
     { label: "Process", href: "#process" },
   ];
 
+  const scrollToContact = () => {
+    const contactSection = document.getElementById("contact");
+    if (contactSection) {
+      contactSection.scrollIntoView({ behavior: "smooth" });
+    }
+    setIsMobileMenuOpen(false);
+  };
+
   return (
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
         isScrolled
-          ? "bg-background/80 backdrop-blur-xl border-b border-white/10 py-4"
-          : "bg-transparent py-6"
+          ? "bg-background/90 backdrop-blur-xl border-b border-primary/10 py-3"
+          : "bg-transparent py-5"
       }`}
     >
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
@@ -35,17 +44,11 @@ const Header = () => {
           {/* Logo */}
           <a href="#" className="flex items-center gap-3 group">
             <div className="relative">
-              <div className="w-10 h-10 bg-gradient-to-br from-primary to-secondary rounded-lg flex items-center justify-center font-display font-bold text-primary-foreground text-xl shadow-glow group-hover:shadow-[0_0_30px_hsl(190_100%_50%/0.5)] transition-shadow duration-300">
-                V
-              </div>
-            </div>
-            <div className="hidden sm:block">
-              <span className="font-display font-bold text-xl text-foreground">
-                Verakron
-              </span>
-              <span className="block text-xs text-muted-foreground -mt-1">
-                Infotech Solutions
-              </span>
+              <img 
+                src={verakronLogo} 
+                alt="Verakron Infotech Solution" 
+                className="h-12 w-auto transition-transform duration-300 group-hover:scale-105"
+              />
             </div>
           </a>
 
@@ -58,17 +61,19 @@ const Header = () => {
                 className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors duration-300 relative group"
               >
                 {link.label}
-                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full" />
+                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-primary to-secondary transition-all duration-300 group-hover:w-full" />
               </a>
             ))}
           </nav>
 
           {/* CTA Button */}
           <div className="hidden lg:flex items-center gap-4">
-            <Button variant="outline" size="sm">
+            <Button variant="outline" size="sm" onClick={scrollToContact}>
               Contact Us
             </Button>
-            <Button size="sm">Get Consultation</Button>
+            <Button variant="gold" size="sm" onClick={scrollToContact}>
+              Get Consultation
+            </Button>
           </div>
 
           {/* Mobile Menu Toggle */}
@@ -82,7 +87,7 @@ const Header = () => {
 
         {/* Mobile Menu */}
         {isMobileMenuOpen && (
-          <div className="lg:hidden absolute top-full left-0 right-0 bg-background/95 backdrop-blur-xl border-b border-white/10 py-6 animate-fade-in">
+          <div className="lg:hidden absolute top-full left-0 right-0 bg-background/98 backdrop-blur-xl border-b border-primary/10 py-6 animate-fade-in">
             <nav className="flex flex-col gap-4 px-4">
               {navLinks.map((link) => (
                 <a
@@ -94,11 +99,13 @@ const Header = () => {
                   {link.label}
                 </a>
               ))}
-              <div className="flex flex-col gap-3 pt-4 border-t border-white/10">
-                <Button variant="outline" className="w-full">
+              <div className="flex flex-col gap-3 pt-4 border-t border-primary/10">
+                <Button variant="outline" className="w-full" onClick={scrollToContact}>
                   Contact Us
                 </Button>
-                <Button className="w-full">Get Consultation</Button>
+                <Button variant="gold" className="w-full" onClick={scrollToContact}>
+                  Get Consultation
+                </Button>
               </div>
             </nav>
           </div>

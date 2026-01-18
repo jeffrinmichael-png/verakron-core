@@ -99,6 +99,11 @@ export default {
   			glow: {
   				primary: 'hsl(var(--glow-primary))',
   				secondary: 'hsl(var(--glow-secondary))'
+  			},
+  			gold: {
+  				DEFAULT: 'hsl(var(--gold))',
+  				light: 'hsl(var(--gold-light))',
+  				dark: 'hsl(var(--gold-dark))'
   			}
   		},
   		borderRadius: {
@@ -109,8 +114,11 @@ export default {
   		boxShadow: {
   			glow: 'var(--shadow-glow)',
   			'glow-gold': 'var(--shadow-glow-gold)',
+  			'glow-soft': 'var(--shadow-glow-soft)',
   			card: 'var(--shadow-card)',
   			elevated: 'var(--shadow-elevated)',
+  			button: 'var(--shadow-button)',
+  			'button-hover': 'var(--shadow-button-hover)',
   			'2xs': 'var(--shadow-2xs)',
   			xs: 'var(--shadow-xs)',
   			sm: 'var(--shadow-sm)',
@@ -163,6 +171,25 @@ export default {
   				'100%': {
   					backgroundPosition: '200% 0'
   				}
+  			},
+  			'button-lift': {
+  				'0%': {
+  					transform: 'translateY(0) scale(1)'
+  				},
+  				'50%': {
+  					transform: 'translateY(-4px) scale(1.02)'
+  				},
+  				'100%': {
+  					transform: 'translateY(-2px) scale(1.03)'
+  				}
+  			},
+  			'button-press': {
+  				'0%': {
+  					transform: 'translateY(-2px) scale(1.03)'
+  				},
+  				'100%': {
+  					transform: 'translateY(1px) scale(0.98)'
+  				}
   			}
   		},
   		animation: {
@@ -170,7 +197,9 @@ export default {
   			'accordion-up': 'accordion-up 0.2s ease-out',
   			'fade-in': 'fade-in 0.6s ease-out',
   			'scale-in': 'scale-in 0.3s ease-out',
-  			'shimmer': 'shimmer 2s linear infinite'
+  			'shimmer': 'shimmer 2s linear infinite',
+  			'button-lift': 'button-lift 0.3s ease-out forwards',
+  			'button-press': 'button-press 0.15s ease-out forwards'
   		}
   	}
   },

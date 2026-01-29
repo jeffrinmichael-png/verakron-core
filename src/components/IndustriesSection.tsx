@@ -6,11 +6,20 @@ import {
   Landmark, 
   Factory, 
   Truck, 
-  Building 
+  Building,
+  Layers,
+  Plus
 } from "lucide-react";
 
+interface Industry {
+  icon: typeof Rocket;
+  name: string;
+  description: string;
+  isCustom?: boolean;
+}
+
 const IndustriesSection = () => {
-  const industries = [
+  const industries: Industry[] = [
     { icon: Rocket, name: "Startups", description: "MVP to Scale" },
     { icon: ShoppingCart, name: "E-commerce", description: "Digital Commerce" },
     { icon: Heart, name: "Healthcare", description: "HealthTech Solutions" },
@@ -19,6 +28,7 @@ const IndustriesSection = () => {
     { icon: Factory, name: "Manufacturing", description: "Industry 4.0" },
     { icon: Truck, name: "Logistics", description: "Supply Chain Tech" },
     { icon: Building, name: "Real Estate", description: "PropTech Solutions" },
+    { icon: Layers, name: "Custom Domain", description: "Any Industry, Your Vision", isCustom: true },
   ];
 
   return (
@@ -50,15 +60,30 @@ const IndustriesSection = () => {
           {industries.map((industry, index) => (
             <div
               key={industry.name}
-              className="glass-card p-6 sm:p-8 rounded-2xl text-center group hover:border-primary/30 transition-all duration-500 gradient-border cursor-pointer"
+              className={`glass-card p-6 sm:p-8 rounded-2xl text-center group transition-all duration-500 cursor-pointer ${
+                industry.isCustom 
+                  ? "border-2 border-secondary/50 hover:border-secondary bg-gradient-to-br from-secondary/10 to-transparent hover:shadow-glow-gold" 
+                  : "hover:border-primary/30 gradient-border"
+              }`}
             >
               {/* Icon */}
-              <div className="w-16 h-16 mx-auto rounded-2xl bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center mb-4 group-hover:shadow-glow group-hover:scale-110 transition-all duration-500">
-                <industry.icon className="w-8 h-8 text-primary" />
+              <div className={`w-16 h-16 mx-auto rounded-2xl flex items-center justify-center mb-4 group-hover:scale-110 transition-all duration-500 relative ${
+                industry.isCustom 
+                  ? "bg-gradient-to-br from-secondary/30 to-secondary/10 group-hover:shadow-glow-gold" 
+                  : "bg-gradient-to-br from-primary/20 to-primary/5 group-hover:shadow-glow"
+              }`}>
+                <industry.icon className={`w-8 h-8 ${industry.isCustom ? "text-secondary" : "text-primary"}`} />
+                {industry.isCustom && (
+                  <div className="absolute -top-1 -right-1 w-5 h-5 bg-secondary rounded-full flex items-center justify-center">
+                    <Plus className="w-3 h-3 text-secondary-foreground" />
+                  </div>
+                )}
               </div>
               
               {/* Content */}
-              <h3 className="font-display font-semibold text-lg mb-1 text-foreground">
+              <h3 className={`font-display font-semibold text-lg mb-1 ${
+                industry.isCustom ? "text-secondary" : "text-foreground"
+              }`}>
                 {industry.name}
               </h3>
               <p className="text-xs text-muted-foreground">

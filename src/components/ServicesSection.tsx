@@ -11,12 +11,16 @@ import {
   Bot, 
   Database,
   TrendingUp,
-  Palette,
-  Target,
   FileCheck,
   Calculator,
   Briefcase,
-  Users
+  Users,
+  Share2,
+  Megaphone,
+  UserCircle,
+  FileText,
+  BarChart3,
+  Mail
 } from "lucide-react";
 
 // 3D Floating Shape Component
@@ -135,9 +139,14 @@ const ServicesSection = () => {
       description: "Accelerate your market presence",
       color: "secondary",
       services: [
+        { icon: Share2, name: "Social Media Marketing" },
+        { icon: Megaphone, name: "Brand Awareness Campaigns" },
+        { icon: UserCircle, name: "Personal Branding" },
+        { icon: FileText, name: "Content Marketing" },
+        { icon: BarChart3, name: "Performance Marketing" },
+        { icon: Users, name: "Influencer Marketing" },
+        { icon: Mail, name: "Email Marketing & Automation" },
         { icon: TrendingUp, name: "SEO & Growth Marketing" },
-        { icon: Palette, name: "Branding & UI/UX" },
-        { icon: Target, name: "Lead Generation Systems" },
       ],
     },
     {

@@ -1,7 +1,14 @@
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Sparkles } from "lucide-react";
+import { Input } from "@/components/ui/input";
+import { ArrowRight, Sparkles, Send } from "lucide-react";
+import { useState } from "react";
+import { useToast } from "@/hooks/use-toast";
 
 const HeroSection = () => {
+  const [expectation, setExpectation] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const { toast } = useToast();
+
   const scrollToContact = () => {
     const contactSection = document.getElementById("contact");
     if (contactSection) {
@@ -14,6 +21,24 @@ const HeroSection = () => {
     if (servicesSection) {
       servicesSection.scrollIntoView({ behavior: "smooth" });
     }
+  };
+
+  const handleExpectationSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!expectation.trim()) return;
+    
+    setIsSubmitting(true);
+    // Simulate submission
+    await new Promise((resolve) => setTimeout(resolve, 800));
+    
+    toast({
+      title: "Thank you for sharing!",
+      description: "We'll craft the perfect solution for your vision.",
+    });
+    
+    setExpectation("");
+    setIsSubmitting(false);
+    scrollToContact();
   };
 
   return (
@@ -62,22 +87,29 @@ const HeroSection = () => {
             </Button>
           </div>
 
-          {/* Trust Indicators */}
-          <div className="glass-card inline-flex items-center gap-8 sm:gap-12 px-8 py-5 rounded-2xl">
-            <div className="text-center">
-              <div className="font-display text-2xl sm:text-3xl font-bold text-primary">500+</div>
-              <div className="text-xs sm:text-sm text-muted-foreground">Projects Delivered</div>
-            </div>
-            <div className="w-px h-10 bg-primary/20" />
-            <div className="text-center">
-              <div className="font-display text-2xl sm:text-3xl font-bold text-primary">50+</div>
-              <div className="text-xs sm:text-sm text-muted-foreground">Global Clients</div>
-            </div>
-            <div className="w-px h-10 bg-primary/20 hidden sm:block" />
-            <div className="text-center hidden sm:block">
-              <div className="font-display text-2xl sm:text-3xl font-bold text-primary">99%</div>
-              <div className="text-xs sm:text-sm text-muted-foreground">Client Satisfaction</div>
-            </div>
+          {/* Expectation Input Section */}
+          <div className="glass-card px-6 sm:px-8 py-6 rounded-2xl max-w-2xl mx-auto">
+            <p className="text-sm sm:text-base text-muted-foreground mb-4">
+              Tell us your expectation for your website
+            </p>
+            <form onSubmit={handleExpectationSubmit} className="flex flex-col sm:flex-row gap-3">
+              <Input
+                type="text"
+                placeholder="E.g., A modern e-commerce platform with AI recommendations..."
+                value={expectation}
+                onChange={(e) => setExpectation(e.target.value)}
+                className="flex-1 bg-background/50 border-primary/30 focus:border-primary text-foreground placeholder:text-muted-foreground/60"
+              />
+              <Button 
+                type="submit" 
+                variant="gold" 
+                disabled={isSubmitting || !expectation.trim()}
+                className="group px-6"
+              >
+                {isSubmitting ? "Sending..." : "Share"}
+                <Send className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
+              </Button>
+            </form>
           </div>
         </div>
       </div>
